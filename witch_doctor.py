@@ -21,7 +21,7 @@ class SheetStat:
     IAS_on_weapon = 0 / 100
     IAS_on_gear_and_paragon_points = 35 / 100
 
-class WD:
+class WitchDoctor:
     # Input gear
     mask = ("Mask of Jeram", "Carnevil", "Other")[0]
     MoJ_increase_pet_damage_rate = 79 / 100
@@ -35,4 +35,4 @@ class WD:
     damage_increase_against_elites = 0 / 100
     # Legendary gems
     Enforcer = 22.5 / 100
-    BotT =
+    Gem_of_Efficacious_Toxin = 25
