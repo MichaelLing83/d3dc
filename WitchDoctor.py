@@ -22,6 +22,9 @@ class SheetStat:
     IAS_on_gear_and_paragon_points = 35 / 100
 
 class WitchDoctor:
+    def __init__(self):
+        self.lvl = 70   # by default, we work for end-game players
+        self.intel = 10 + self.lvl * 3
     # Input gear
     mask = ("Mask of Jeram", "Carnevil", "Other")[0]
     MoJ_increase_pet_damage_rate = 79 / 100

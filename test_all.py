@@ -16,8 +16,8 @@ class TestLegendaryGem:
 
 class TestWitchDoctor:
     def setUp(self):
-        pass
+        self.wd = WitchDoctor()
     def tearDown(self):
         pass
-    def test_a(self):
-        pass
+    def test_basic_stat(self):
+        ok_(self.wd.intel > 0)
