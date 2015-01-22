@@ -15,7 +15,7 @@ def active_legendary_str(s):
 def deactive_str(s):
     return colored(s, deactive_c)
 
-def warn_ste(s):
+def warn_str(s):
     return colored(s, warn_c)
 
 def improvable_str(s):
