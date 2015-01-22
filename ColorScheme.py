@@ -20,3 +20,25 @@ def warn_str(s):
 
 def improvable_str(s):
     return colored(s, improvable_c)
+
+def property_str(s):
+    return colored(s, "blue")
+
+def number_str(s):
+    return colored(s, "cyan")
+
+# Gear quality strings
+def _normal(s):
+    return colored(s, "white")
+
+def _unusual(s):
+    return colored(s, "blue")
+
+def _rare(s):
+    return colored(s, "yellow")
+
+def _legendary(s):
+    return colored(s, "magenta")
+
+def _set(s):
+    return colored(s, "green")
