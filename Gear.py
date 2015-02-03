@@ -15,6 +15,7 @@ class Gear(Item):
         self.criticalHitChanceIncreasedBy = 0
         self.increaseGargantuanDamageBy = 0
         self.increaseHauntDamageBy = 0
+        self.increaseDamageAgainstElites = 0
         self.physicalSkillsDealMoreDamage = 0
         self.resistanceToAllElements = 0
         self.lifePerHit = 0

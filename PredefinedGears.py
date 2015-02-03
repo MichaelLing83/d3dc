@@ -29,3 +29,12 @@ class TaskerAndTheo(Gear):
         s += improvable_str("{:02.0f}%".format(self.speedIncrease * 100))
         s += _legendary(".")
         return s
+
+
+class Unity(Gear):
+    def __init__(self):
+        super().__init__('Ring', 'Unity', 'Legendary')
+    def __str__(self, prefix=''):
+        s = super().__str__(prefix)
+        s += _legendary("\n{prefix}All damage taken is split between wearers of this item.".format(prefix=prefix))
+        return s

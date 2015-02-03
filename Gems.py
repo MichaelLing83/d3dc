@@ -45,6 +45,27 @@ class LegendaryGem(Gem):
         s += prefix + colored("Level:  {lvl}".format(lvl=self.lvl), active_legendary_c)
         return s
 
+class Enforcer(LegendaryGem):
+    def __init__(self, lvl):
+        super().__init__("Enforcer", lvl)
+        self.petDamageIncrease = 15 + 0.3 * self.lvl
+    def __str__(self, owner = None, prefix = ''):
+        result = super().__str__(owner, prefix) + '\n'
+        result += prefix + active_legendary_str("Properties:\n")
+        result += prefix + active_legendary_str("  * Increases the damage of your pets by ")
+        result += improvable_str("{:03.1f}%".format(self.petDamageIncrease))
+        result += active_legendary_str(".\n")
+        result += prefix + active_legendary_str("    * Upgrade: +0.3% damage per Rank.\n")
+        if self.lvl >= 25:
+            tmp_str = active_legendary_str
+            tmp_lvl_str = active_legendary_str
+        else:
+            tmp_str = deactive_str
+            tmp_lvl_str = warn_str
+        result += prefix + tmp_str("  * Your pets take 25% less damage (")
+        result += tmp_lvl_str("Requires Rank 25") + tmp_str(")")
+        return result
+
 class PainEnhancer(LegendaryGem):
     def __init__(self, lvl):
         super().__init__("Pain Enhancer", lvl)

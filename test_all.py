@@ -1,12 +1,12 @@
 from WitchDoctor import WitchDoctor
-from Gems import GemOfEfficaciousToxin, PainEnhancer, FlawlessRoyalTopaz
+from Gems import GemOfEfficaciousToxin, PainEnhancer, FlawlessRoyalTopaz, Enforcer
 from nose.tools import ok_, eq_
 from random import seed, randint
 from Item import Item
 from Gear import Gear, Weapon
 from Slot import Slot
 from Hero import Hero
-from PredefinedGears import StrongarmBracers, TaskerAndTheo
+from PredefinedGears import StrongarmBracers, TaskerAndTheo, Unity
 
 class TestLegendaryGem:
     def setUp(self):
@@ -111,6 +111,14 @@ class TestWitchDoctor:
         theTallMansFinger.sockets[0].insert(gemOfEfficaciousToxin)
         self.wd.ring_one.equip(theTallMansFinger)
         ## Ring Two
+        unity = Unity()
+        unity.intelligence = 471
+        unity.criticalHitChanceIncreasedBy = 4.5 / 100
+        unity.increaseDamageAgainstElites = 13 /100
+        enforcer = Enforcer(28)
+        unity.addSocket()
+        unity.sockets[0].insert(enforcer)
+        self.wd.ring_two.equip(unity)
         ## Waist
         blackthornesNotchedBelt = Gear('Belt', "Blackthorne's Notched Belt", 'Set')
         blackthornesNotchedBelt.armor = 490
