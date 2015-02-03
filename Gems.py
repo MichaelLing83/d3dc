@@ -7,7 +7,7 @@ class Gem(Item):
         super().__init__(name, quality)
     def __str__(self, prefix):
         return super().__str__(prefix)
-    def _intelligence(self):
+    def _intelligence(self, owner):
         return 0
 
 class FlawlessRoyalTopaz(Gem):
@@ -32,6 +32,13 @@ class FlawlessRoyalTopaz(Gem):
             else:
                 s += ':  ' + self.other
         return s
+    def _intelligence(self, owner):
+        intelligence = 0
+        if owner != None:
+            slot_type = Item.to_slot_type(owner.gear_type)
+            if slot_type not in ('Head', 'Main Hand'):
+                intelligence = 280
+        return intelligence
 
 
 class LegendaryGem(Gem):
@@ -63,6 +70,27 @@ class Enforcer(LegendaryGem):
             tmp_str = deactive_str
             tmp_lvl_str = warn_str
         result += prefix + tmp_str("  * Your pets take 25% less damage (")
+        result += tmp_lvl_str("Requires Rank 25") + tmp_str(")")
+        return result
+
+class BaneOfTheTrapped(LegendaryGem):
+    def __init__(self, lvl):
+        super().__init__("Bane of the Trapped", lvl)
+        self.increaseDamage = 15 + 0.3 * self.lvl
+    def __str__(self, owner = None, prefix = ''):
+        result = super().__str__(owner, prefix) + '\n'
+        result += prefix + active_legendary_str("Properties:\n")
+        result += prefix + active_legendary_str("  * Increases damage done to enemies under the control-impairing effects by ")
+        result += improvable_str("{:03.1f}%".format(self.increaseDamage))
+        result += active_legendary_str(".\n")
+        result += prefix + active_legendary_str("    * Upgrade: +0.3% additional damage per Rank.\n")
+        if self.lvl >= 25:
+            tmp_str = active_legendary_str
+            tmp_lvl_str = active_legendary_str
+        else:
+            tmp_str = deactive_str
+            tmp_lvl_str = warn_str
+        result += prefix + tmp_str("  * Gain an aura that slows the movement speed of enemies within 15 yards by 30% (")
         result += tmp_lvl_str("Requires Rank 25") + tmp_str(")")
         return result
 

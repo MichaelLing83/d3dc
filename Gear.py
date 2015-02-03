@@ -12,7 +12,9 @@ class Gear(Item):
         self.armor = 0
         self.intelligence = 0
         self.vitality = 0
+        self.attackSpeedIncreasedBy = 0
         self.criticalHitChanceIncreasedBy = 0
+        self.criticalHitDamageIncreasedBy = 0
         self.increaseGargantuanDamageBy = 0
         self.increaseHauntDamageBy = 0
         self.increaseDamageAgainstElites = 0
@@ -27,7 +29,7 @@ class Gear(Item):
         for socket in self.sockets:
             gem = socket._get_gem()
             if gem:
-                intelligence += gem._intelligence()
+                intelligence += gem._intelligence(self)
         return intelligence
     def __str__(self, prefix='', is_weapon=False):
         s = super().__str__(prefix)
@@ -86,10 +88,18 @@ class Gear(Item):
                         prefix,
                         number_str("+{} ".format(self.resistanceToAllElements)),
                         property_str("Resistance to all elements.")))
+        if self.attackSpeedIncreasedBy:
+            s += ''.join(("\n",
+                        prefix, property_str("Attack Speed Increased by "),
+                        number_str("{:03.1f}%".format(self.attackSpeedIncreasedBy * 100))))
         if self.criticalHitChanceIncreasedBy:
             s += ''.join(("\n",
-                        prefix, property_str("critical hit chance increased by "),
+                        prefix, property_str("Critical Hit Chance Increased by "),
                         number_str("{:03.1f}%".format(self.criticalHitChanceIncreasedBy * 100))))
+        if self.criticalHitDamageIncreasedBy:
+            s += ''.join(("\n",
+                        prefix, property_str("Critical Hit Damage Increased by "),
+                        number_str("{:03.1f}%".format(self.criticalHitDamageIncreasedBy * 100))))
         if self.lifePerHit:
             s += ''.join(("\n",
                         prefix,

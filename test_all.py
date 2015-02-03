@@ -1,12 +1,12 @@
 from WitchDoctor import WitchDoctor
-from Gems import GemOfEfficaciousToxin, PainEnhancer, FlawlessRoyalTopaz, Enforcer
+from Gems import GemOfEfficaciousToxin, PainEnhancer, FlawlessRoyalTopaz, Enforcer, BaneOfTheTrapped
 from nose.tools import ok_, eq_
 from random import seed, randint
 from Item import Item
 from Gear import Gear, Weapon
 from Slot import Slot
 from Hero import Hero
-from PredefinedGears import StrongarmBracers, TaskerAndTheo, Unity
+from PredefinedGears import StrongarmBracers, TaskerAndTheo, Unity, RingOfRoyalGrandeur
 
 class TestLegendaryGem:
     def setUp(self):
@@ -105,12 +105,6 @@ class TestWitchDoctor:
         zunimassasMarrow.sockets[2].insert(flawlessRoyalTopaz)
         self.wd.torso.equip(zunimassasMarrow)
         ## Ring One
-        gemOfEfficaciousToxin = GemOfEfficaciousToxin(27)
-        theTallMansFinger = Gear('Ring', "The Tall Man's Finger", 'Legendary')
-        theTallMansFinger.addSocket()
-        theTallMansFinger.sockets[0].insert(gemOfEfficaciousToxin)
-        self.wd.ring_one.equip(theTallMansFinger)
-        ## Ring Two
         unity = Unity()
         unity.intelligence = 471
         unity.criticalHitChanceIncreasedBy = 4.5 / 100
@@ -118,7 +112,15 @@ class TestWitchDoctor:
         enforcer = Enforcer(28)
         unity.addSocket()
         unity.sockets[0].insert(enforcer)
-        self.wd.ring_two.equip(unity)
+        self.wd.ring_one.equip(unity)
+        ## Ring Two
+        ringOfRoyalGrandeur = RingOfRoyalGrandeur()
+        ringOfRoyalGrandeur.intelligence = 461
+        ringOfRoyalGrandeur.attackSpeedIncreasedBy = 7 / 100
+        ringOfRoyalGrandeur.criticalHitDamageIncreasedBy = 45 / 100
+        ringOfRoyalGrandeur.addSocket()
+        ringOfRoyalGrandeur.sockets[0].insert(BaneOfTheTrapped(26))
+        self.wd.ring_two.equip(ringOfRoyalGrandeur)
         ## Waist
         blackthornesNotchedBelt = Gear('Belt', "Blackthorne's Notched Belt", 'Set')
         blackthornesNotchedBelt.armor = 490
@@ -178,4 +180,19 @@ class TestWitchDoctor:
     def tearDown(self):
         pass
     def test_basic_stat(self):
-        ok_(self.wd.intelligence > 0)
+        wd = WitchDoctor("Intelligence")
+        wd.intelligence = 0
+        zunimassasMarrow = Gear('Chest Armor', "Zunnimassa's Marrow", 'Set')
+        zunimassasMarrow.armor = 688
+        zunimassasMarrow.intelligence = 432
+        zunimassasMarrow.vitality = 463
+        zunimassasMarrow.increaseHauntDamageBy = 15 / 100
+        zunimassasMarrow.addSocket()
+        zunimassasMarrow.addSocket()
+        zunimassasMarrow.addSocket()
+        zunimassasMarrow.sockets[0].insert(FlawlessRoyalTopaz())
+        zunimassasMarrow.sockets[1].insert(FlawlessRoyalTopaz())
+        zunimassasMarrow.sockets[2].insert(FlawlessRoyalTopaz())
+        wd.torso.equip(zunimassasMarrow)
+        print("wd._intelligence() = {}".format(wd._intelligence()))
+        assert(wd._intelligence() == 280 * 3 + 432)

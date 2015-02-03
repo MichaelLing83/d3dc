@@ -38,3 +38,11 @@ class Unity(Gear):
         s = super().__str__(prefix)
         s += _legendary("\n{prefix}All damage taken is split between wearers of this item.".format(prefix=prefix))
         return s
+
+class RingOfRoyalGrandeur(Gear):
+    def __init__(self):
+        super().__init__('Ring', 'Ring of Royal Grandeur', 'Legendary')
+    def __str__(self, prefix=''):
+        s = super().__str__(prefix)
+        s += _legendary("\n{prefix}Reduces the number of items needed for set bonuses by 1 (to a minimum of 2).".format(prefix=prefix))
+        return s
