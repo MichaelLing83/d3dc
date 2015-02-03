@@ -3,7 +3,7 @@ from Gems import GemOfEfficaciousToxin, PainEnhancer, FlawlessRoyalTopaz
 from nose.tools import ok_, eq_
 from random import seed, randint
 from Item import Item
-from Gear import Gear
+from Gear import Gear, Weapon
 from Slot import Slot
 from Hero import Hero
 from PredefinedGears import StrongarmBracers, TaskerAndTheo
@@ -91,19 +91,19 @@ class TestWitchDoctor:
         theFlavorOfTime.sockets[0].insert(painEnhancer)
         self.wd.amulet.equip(theFlavorOfTime)
         ## Torso
-        zunimmassasMarrow = Gear('Chest Armor', "Zunnimassa's Marrow", 'Set')
-        zunimmassasMarrow.armor = 688
-        zunimmassasMarrow.intelligence = 432
-        zunimmassasMarrow.vitality = 463
-        zunimmassasMarrow.increaseHauntDamageBy = 15 / 100
+        zunimassasMarrow = Gear('Chest Armor', "Zunnimassa's Marrow", 'Set')
+        zunimassasMarrow.armor = 688
+        zunimassasMarrow.intelligence = 432
+        zunimassasMarrow.vitality = 463
+        zunimassasMarrow.increaseHauntDamageBy = 15 / 100
         flawlessRoyalTopaz = FlawlessRoyalTopaz()
-        zunimmassasMarrow.addSocket()
-        zunimmassasMarrow.addSocket()
-        zunimmassasMarrow.addSocket()
-        zunimmassasMarrow.sockets[0].insert(flawlessRoyalTopaz)
-        zunimmassasMarrow.sockets[1].insert(flawlessRoyalTopaz)
-        zunimmassasMarrow.sockets[2].insert(flawlessRoyalTopaz)
-        self.wd.torso.equip(zunimmassasMarrow)
+        zunimassasMarrow.addSocket()
+        zunimassasMarrow.addSocket()
+        zunimassasMarrow.addSocket()
+        zunimassasMarrow.sockets[0].insert(flawlessRoyalTopaz)
+        zunimassasMarrow.sockets[1].insert(flawlessRoyalTopaz)
+        zunimassasMarrow.sockets[2].insert(flawlessRoyalTopaz)
+        self.wd.torso.equip(zunimassasMarrow)
         ## Ring One
         gemOfEfficaciousToxin = GemOfEfficaciousToxin(27)
         theTallMansFinger = Gear('Ring', "The Tall Man's Finger", 'Legendary')
@@ -144,18 +144,27 @@ class TestWitchDoctor:
         taskerAndTheo.criticalHitChanceIncreasedBy = 10 / 100
         self.wd.hands.equip(taskerAndTheo)
         ## Feet
-        zunimmassasTrail = Gear('Boots', "Zunimassa's Trail", 'Set')
-        zunimmassasTrail.armor = 556
-        zunimmassasTrail.intelligence = 485
-        zunimmassasTrail.vitality = 468
-        zunimmassasTrail.resistanceToAllElements = 91
-        zunimmassasTrail.movementSpeed = 11 / 100
-        self.wd.feet.equip(zunimmassasTrail)
+        zunimassasTrail = Gear('Boots', "Zunimassa's Trail", 'Set')
+        zunimassasTrail.armor = 556
+        zunimassasTrail.intelligence = 485
+        zunimassasTrail.vitality = 468
+        zunimassasTrail.resistanceToAllElements = 91
+        zunimassasTrail.movementSpeed = 11 / 100
+        self.wd.feet.equip(zunimassasTrail)
         ## MainHand
-        doomBringer = Gear('Sword', 'Doombringer', 'Legendary')
+        doomBringer = Weapon('Sword', 'Doombringer', 'Legendary')
         doomBringer.damage = (1344, 1800)
         doomBringer.attacksPerSecond = 1.5
         self.wd.mainHand.equip(doomBringer)
+        ## OffHand
+        zunimassasStringOfSkulls = Gear('Mojo', "Zunimassa's String of Skulls", 'Set')
+        zunimassasStringOfSkulls.damage = (366, 446)
+        zunimassasStringOfSkulls.intelligence = 728
+        zunimassasStringOfSkulls.vitality = 662
+        zunimassasStringOfSkulls.criticalHitChanceIncreasedBy = 9.5 / 100
+        zunimassasStringOfSkulls.addSocket()
+        zunimassasStringOfSkulls.sockets[0].insert(flawlessRoyalTopaz)
+        self.wd.offHand.equip(zunimassasStringOfSkulls)
         # End of Gears
         print(self.wd)
     def tearDown(self):

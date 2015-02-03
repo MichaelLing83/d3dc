@@ -28,14 +28,22 @@ class Gear(Item):
             if gem:
                 intelligence += gem._intelligence()
         return intelligence
-    def __str__(self, prefix=''):
+    def __str__(self, prefix='', is_weapon=False):
         s = super().__str__(prefix)
         s += " " + self._color[self.quality](self.gear_type)
         if self.damage:
-            s += ''.join(("\n",
-                        prefix,
-                        "{}-{} Damage".format(self.damage[0], self.damage[1])))
-        if self.attacksPerSecond:
+            if is_weapon:
+                s += ''.join(("\n",
+                            prefix,
+                            "{}-{} Damage".format(self.damage[0], self.damage[1])))
+            else:
+                s += ''.join(("\n",
+                            prefix,
+                            number_str("+{}".format(self.damage[0])),
+                            property_str("-"),
+                            number_str("{}".format(self.damage[1])),
+                            property_str(" Damage")))
+        if is_weapon and self.attacksPerSecond:
             s += ''.join(("\n",
                         prefix,
                         "{:03.2f} Attacks per Second".format(self.attacksPerSecond)))
@@ -97,3 +105,11 @@ class Gear(Item):
         return s
     def addSocket(self):
         self.sockets.append(Socket(self))
+
+class Weapon(Gear):
+    def __init__(self, gear_type, name, quality = 'Normal'):
+        super().__init__(gear_type, name, quality)
+        self.damage = None
+        self.attacksPerSecond = 0
+    def __str__(self, prefix=''):
+        return super().__str__(prefix, is_weapon=True)
