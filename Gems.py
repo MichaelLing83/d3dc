@@ -7,6 +7,8 @@ class Gem(Item):
         super().__init__(name, quality)
     def __str__(self, prefix):
         return super().__str__(prefix)
+    def _intelligence(self):
+        return 0
 
 class FlawlessRoyalTopaz(Gem):
     def __init__(self):

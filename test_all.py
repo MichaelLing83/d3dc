@@ -153,8 +153,9 @@ class TestWitchDoctor:
         self.wd.feet.equip(zunimmassasTrail)
         ## MainHand
         doomBringer = Gear('Sword', 'Doombringer', 'Legendary')
-        self.damage = (1344, 1800)
-        self.attackPerSecond = 1.5
+        doomBringer.damage = (1344, 1800)
+        doomBringer.attacksPerSecond = 1.5
+        self.wd.mainHand.equip(doomBringer)
         # End of Gears
         print(self.wd)
     def tearDown(self):

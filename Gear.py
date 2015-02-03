@@ -19,9 +19,26 @@ class Gear(Item):
         self.resistanceToAllElements = 0
         self.lifePerHit = 0
         self.movementSpeed = 0
+        self.damage = None
+        self.attacksPerSecond = 0
+    def _intelligence(self):
+        intelligence = self.intelligence
+        for socket in self.sockets:
+            gem = socket._get_gem()
+            if gem:
+                intelligence += gem._intelligence()
+        return intelligence
     def __str__(self, prefix=''):
         s = super().__str__(prefix)
         s += " " + self._color[self.quality](self.gear_type)
+        if self.damage:
+            s += ''.join(("\n",
+                        prefix,
+                        "{}-{} Damage".format(self.damage[0], self.damage[1])))
+        if self.attacksPerSecond:
+            s += ''.join(("\n",
+                        prefix,
+                        "{:03.2f} Attacks per Second".format(self.attacksPerSecond)))
         if self.armor:
             s += ''.join(("\n", prefix, "Armor: {}".format(self.armor)))
         if self.intelligence:

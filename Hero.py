@@ -39,13 +39,20 @@ class Hero(Unit):
         self.slots = (self.head, self.shoulders, self.torso, self.amulet, self.wrists, self.hands,
                         self.waist, self.legs, self.feet, self.ring_one, self.ring_two, self.mainHand,
                         self.offHand)
+    def _intelligence(self):
+        intelligence = self.intelligence
+        for slot in self.slots:
+            gear = slot._gear()
+            if gear:
+                intelligence += gear._intelligence()
+        return intelligence
     def __str__(self, prefix=''):
         s = super().__str__()
         s += """
 Class:  {}
 Lvl:    {}
 Intel:  {}
-""".format(self.hero_class, self.lvl, self.intelligence)
+""".format(self.hero_class, self.lvl, self._intelligence())
         for slot in self.slots:
             s += str(slot) + "\n"
         return s
