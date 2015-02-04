@@ -165,6 +165,7 @@ class TestWitchDoctor:
         doomBringer = Weapon('Sword', 'Doombringer', 'Legendary')
         doomBringer.damage = (1344, 1800)
         doomBringer.attacksPerSecond = 1.5
+        doomBringer.intelligence = 695
         self.wd.mainHand.equip(doomBringer)
         ## OffHand
         zunimassasStringOfSkulls = Gear('Mojo', "Zunimassa's String of Skulls", 'Set')
@@ -177,9 +178,11 @@ class TestWitchDoctor:
         self.wd.offHand.equip(zunimassasStringOfSkulls)
         # End of Gears
         print(self.wd)
+        print("Critical Hit Chance Increased by {:03.1f}%".format(self.wd._criticalHitChanceIncreasedBy() * 100))
     def tearDown(self):
         pass
     def test_basic_stat(self):
+        print()
         wd = WitchDoctor("Intelligence")
         wd.intelligence = 0
         zunimassasMarrow = Gear('Chest Armor', "Zunnimassa's Marrow", 'Set')
@@ -187,6 +190,7 @@ class TestWitchDoctor:
         zunimassasMarrow.intelligence = 432
         zunimassasMarrow.vitality = 463
         zunimassasMarrow.increaseHauntDamageBy = 15 / 100
+        zunimassasMarrow.criticalHitChanceIncreasedBy = 4 / 100
         zunimassasMarrow.addSocket()
         zunimassasMarrow.addSocket()
         zunimassasMarrow.addSocket()
@@ -196,3 +200,8 @@ class TestWitchDoctor:
         wd.torso.equip(zunimassasMarrow)
         print("wd._intelligence() = {}".format(wd._intelligence()))
         assert(wd._intelligence() == 280 * 3 + 432)
+        print("Critical Hit Chance Increased by {:03.1f}%".format(wd._criticalHitChanceIncreasedBy() * 100))
+    def test_stats_from_gear(self):
+        self.wd.intelligence = 0
+        eq_(self.wd._intelligence(), 8064)
+        eq_(int(self.wd._criticalHitChanceIncreasedBy() * 100), 43)

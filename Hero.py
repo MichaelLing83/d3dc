@@ -56,3 +56,10 @@ Intel:  {}
         for slot in self.slots:
             s += str(slot) + "\n"
         return s
+    def _criticalHitChanceIncreasedBy(self):
+        criticalHitChanceIncreasedBy = 0
+        for slot in self.slots:
+            gear = slot._gear()
+            if gear:
+                criticalHitChanceIncreasedBy += gear._criticalHitChanceIncreasedBy()
+        return criticalHitChanceIncreasedBy
