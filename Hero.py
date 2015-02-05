@@ -13,6 +13,7 @@ from OffHand import OffHand
 from Legs import Legs
 from Feet import Feet
 from Hands import Hands
+from Paragon import Paragon
 
 class Hero(Unit):
     CLASSES = ('Witch Doctor', 'Crusader', 'Babarian', 'Demon Hunter', 'Wizard')
@@ -22,6 +23,7 @@ class Hero(Unit):
         self.hero_class = hero_class
         self.lvl = 70
         self.name = name
+        self.paragon = Paragon(self)
         self.intelligence = 10 + 3 * self.lvl
         self.head = Head()
         self.shoulders = Shoulders()
@@ -45,6 +47,7 @@ class Hero(Unit):
             gear = slot._gear()
             if gear:
                 intelligence += gear._intelligence()
+        intelligence += self.paragon._intelligence()
         return intelligence
     def __str__(self, prefix=''):
         s = super().__str__()
@@ -63,3 +66,8 @@ Intel:  {}
             if gear:
                 criticalHitChanceIncreasedBy += gear._criticalHitChanceIncreasedBy()
         return criticalHitChanceIncreasedBy
+    def _baseWeaponAps(self):
+        aps = 0
+        weapon = self.mainHand._gear()
+        aps = (1 + weapon.attackSpeedIncreasedBy) * weapon.attacksPerSecond
+        return aps
