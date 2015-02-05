@@ -205,4 +205,6 @@ class TestWitchDoctor:
         self.wd.intelligence = 0
         eq_(self.wd._intelligence(), 8064)
         eq_(int(self.wd._criticalHitChanceIncreasedBy() * 100), 43)
-        eq_(int(self.wd._baseWeaponAps() * 100), int(1.5 * 100))
+        eq_(int(self.wd._baseWeaponAps_E7() * 100), int(1.5 * 100))
+        eq_(int(self.wd._totalAPS_E8() * 1000), int(1.605 * 1000))
+        print("Increased Attack Speed on Gear and Paragon: {:03.1f}%".format(100*self.wd._increasedAttackSpeedOnGearAndParagon()))

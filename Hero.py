@@ -1,6 +1,4 @@
 from Unit import Unit
-from Slot import Slot
-from Gear import Gear
 from Head import Head
 from Shoulders import Shoulders
 from Amulet import Amulet
@@ -66,8 +64,17 @@ Intel:  {}
             if gear:
                 criticalHitChanceIncreasedBy += gear._criticalHitChanceIncreasedBy()
         return criticalHitChanceIncreasedBy
-    def _baseWeaponAps(self):
+    def _baseWeaponAps_E7(self):
         aps = 0
         weapon = self.mainHand._gear()
         aps = (1 + weapon.attackSpeedIncreasedBy) * weapon.attacksPerSecond
         return aps
+    def _totalAPS_E8(self):
+        return (1 + self._increasedAttackSpeedOnGearAndParagon()) * self._baseWeaponAps_E7()
+    def _increasedAttackSpeedOnGearAndParagon(self):
+        ias = self.paragon._attackSpeed()
+        for slot in self.slots:
+            gear = slot._gear()
+            if gear:
+                ias += gear._attackSpeedIncreasedBy()
+        return ias

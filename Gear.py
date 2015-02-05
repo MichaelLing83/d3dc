@@ -31,6 +31,8 @@ class Gear(Item):
             if gem:
                 intelligence += gem._intelligence(self)
         return intelligence
+    def _attackSpeedIncreasedBy(self):
+        return self.attackSpeedIncreasedBy
     def _criticalHitChanceIncreasedBy(self):
         return self.criticalHitChanceIncreasedBy
     def __str__(self, prefix='', is_weapon=False):
