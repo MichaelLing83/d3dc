@@ -12,6 +12,8 @@ from Legs import Legs
 from Feet import Feet
 from Hands import Hands
 from Paragon import Paragon
+from Skills import BigBadVoodoo, Skills
+from Formulas import AttackSpeedFormula
 
 class Hero(Unit):
     CLASSES = ('Witch Doctor', 'Crusader', 'Babarian', 'Demon Hunter', 'Wizard')
@@ -39,6 +41,7 @@ class Hero(Unit):
         self.slots = (self.head, self.shoulders, self.torso, self.amulet, self.wrists, self.hands,
                         self.waist, self.legs, self.feet, self.ring_one, self.ring_two, self.mainHand,
                         self.offHand)
+        self.skills = Skills()
     def _intelligence(self):
         intelligence = self.intelligence
         for slot in self.slots:
@@ -78,3 +81,16 @@ Intel:  {}
             if gear:
                 ias += gear._attackSpeedIncreasedBy()
         return ias
+    def attack_speed(self):
+        formula = AttackSpeedFormula()
+        # update from all gears
+        for slot in self.slots:
+            gear = slot._gear()
+            if gear:
+                gear.update_formula(formula)
+        # update from paragon points
+        self.paragon.update_formula(formula)
+        # update from skills
+        for skill in self.skills:
+            skill.update_formula(formula)
+        return formula.calc()

@@ -1,3 +1,5 @@
+from Formulas import AttackSpeedFormula
+
 class Paragon:
     def __init__(self, hero):
         self.hero = hero
@@ -55,3 +57,6 @@ class Paragon:
         return 1 / 100 * self.areaDamagePoint
     def _lifeOnHit(self):
         return 82.5 * self.lifeOnHitPoint
+    def update_formula(self, formula):
+        if isinstance(formula, AttackSpeedFormula):
+            formula._otherIAS += self._attackSpeed()

@@ -66,3 +66,5 @@ class Item(Unit):
         s = prefix + self._color[self.quality]("{}".format(self.name)) + '\n'
         s += prefix + self._color[self.quality](self.quality)
         return s
+    def update_formula(self, formular):
+        pass

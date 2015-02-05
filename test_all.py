@@ -7,6 +7,7 @@ from Gear import Gear, Weapon
 from Slot import Slot
 from Hero import Hero
 from PredefinedGears import StrongarmBracers, TaskerAndTheo, Unity, RingOfRoyalGrandeur
+from Skills import BigBadVoodoo
 
 class TestLegendaryGem:
     def setUp(self):
@@ -177,6 +178,9 @@ class TestWitchDoctor:
         zunimassasStringOfSkulls.sockets[0].insert(flawlessRoyalTopaz)
         self.wd.offHand.equip(zunimassasStringOfSkulls)
         # End of Gears
+        # Skills
+        self.wd.skills.add(BigBadVoodoo('Slam Dance'))
+        # End of Skills
         print(self.wd)
         print("Critical Hit Chance Increased by {:03.1f}%".format(self.wd._criticalHitChanceIncreasedBy() * 100))
     def tearDown(self):
@@ -208,3 +212,5 @@ class TestWitchDoctor:
         eq_(int(self.wd._baseWeaponAps_E7() * 100), int(1.5 * 100))
         eq_(int(self.wd._totalAPS_E8() * 1000), int(1.605 * 1000))
         print("Increased Attack Speed on Gear and Paragon: {:03.1f}%".format(100*self.wd._increasedAttackSpeedOnGearAndParagon()))
+        print("Attack Speed is {:06.3f} per Second".format(self.wd.attack_speed()))
+        eq_(int(1.905 * 1000), int(self.wd.attack_speed() * 1000))

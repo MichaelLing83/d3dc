@@ -2,6 +2,7 @@ from Item import Item
 from Gems import Gem
 from Socket import Socket
 from ColorScheme import property_str, number_str
+from Formulas import AttackSpeedFormula
 
 class Gear(Item):
     def __init__(self, gear_type, name, quality = 'Normal'):
@@ -120,6 +121,9 @@ class Gear(Item):
         return s
     def addSocket(self):
         self.sockets.append(Socket(self))
+    def update_formula(self, formula):
+        if isinstance(formula, AttackSpeedFormula):
+            formula._otherIAS += self.attackSpeedIncreasedBy
 
 class Weapon(Gear):
     def __init__(self, gear_type, name, quality = 'Normal'):
@@ -128,3 +132,7 @@ class Weapon(Gear):
         self.attacksPerSecond = 0
     def __str__(self, prefix=''):
         return super().__str__(prefix, is_weapon=True)
+    def update_formula(self, formula):
+        if isinstance(formula, AttackSpeedFormula):
+            formula._weaponAttackSpeed = self.attacksPerSecond
+            formula._weaponIAS = self.attackSpeedIncreasedBy
