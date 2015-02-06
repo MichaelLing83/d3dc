@@ -25,6 +25,13 @@ Big Bad Voodoo increased attack speed by 20% for all runes.
         if isinstance(formula, AttackSpeedFormula):
             formula._otherIAS += self._attackSpeedIncreasedBy()
 
+class FetishArmy(ASkill):
+    def __init__(self, rune):
+        super().__init__("Fetish Army")
+        self._runes = ("None", "Fetish Ambush", "Devoted Following", "Legion of Daggers", "Tiki Torchers", "Head Hunters")
+        assert(rune in self._runes)
+        self.rune = rune
+
 class Skills(list):
     def __init__(self):
         super().__init__()
