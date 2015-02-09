@@ -46,3 +46,47 @@ class RingOfRoyalGrandeur(Gear):
         s = super().__str__(prefix)
         s += _legendary("\n{prefix}Reduces the number of items needed for set bonuses by 1 (to a minimum of 2).".format(prefix=prefix))
         return s
+
+class MaskOfJeram(Gear):
+    def __init__(self, moreDamagePercent):
+        super().__init__("Helm", "Mask of Jeram", "Legendary")
+        self._more_damage = moreDamagePercent
+    def __str__(self, prefix=''):
+        s = super().__str__(prefix)
+        s += _legendary("\n{}Pets deal {:03.1f}% more damage.".format(prefix, self._more_damage * 100))
+        return s
+
+class SetBonus(Gear):
+    '''
+    Should never be equipped, only used to calculate set bonus.
+    '''
+    def __init__(self, hero):
+        self._hero = hero
+    def _set_count(self, key_name):
+        set_count = 0
+        for slot in self._hero.slots:
+            gear = slot._gear()
+            if gear and key_name in gear.name:
+                set_count += 1
+        # check if we have the ring
+        for slot in self._hero.slots:
+            gear = slot._gear()
+            if gear and isinstance(gear, RingOfRoyalGrandeur) and set_count >= 2:
+                set_count += 1
+        return set_count
+    def _intelligence(self):
+        intelligence = 0
+        # Zunimassa Set
+        set_count = self._set_count("Zunimassa")
+        if set_count >= 2:
+            intelligence = 250
+        return intelligence
+    def _resistanceToAllElements(self):
+        resistanceToAllElements = 0
+        # Zunimassa Set
+        set_count = self._set_count("Zunimassa")
+        if set_count >= 3:
+            resistanceToAllElements = 75
+        return resistanceToAllElements
+
+

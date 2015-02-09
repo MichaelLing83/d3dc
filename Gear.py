@@ -2,7 +2,7 @@ from Item import Item
 from Gems import Gem
 from Socket import Socket
 from ColorScheme import property_str, number_str
-from Formulas import AttackSpeedFormula
+from Formulas import AttackSpeedFormula, DamageFormula, ResistanceFormula
 
 class Gear(Item):
     def __init__(self, gear_type, name, quality = 'Normal'):
@@ -20,10 +20,17 @@ class Gear(Item):
         self.increaseHauntDamageBy = 0
         self.increaseDamageAgainstElites = 0
         self.physicalSkillsDealMoreDamage = 0
+        self.poisonSkillsDealMoreDamage = 0
         self.resistanceToAllElements = 0
+        self.fireResistance = 0
+        self.coldResistance = 0
+        self.lightningResistance = 0
+        self.poisonResistance = 0
+        self.physicalResistance = 0
         self.lifePerHit = 0
+        self.life = 0   # increase life by x percentage
         self.movementSpeed = 0
-        self.damage = None
+        self.damage = (0, 0)
         self.attacksPerSecond = 0
     def _intelligence(self):
         intelligence = self.intelligence
@@ -32,14 +39,18 @@ class Gear(Item):
             if gem:
                 intelligence += gem._intelligence(self)
         return intelligence
+    def _resistanceToAllElements(self):
+        return self.resistanceToAllElements
     def _attackSpeedIncreasedBy(self):
         return self.attackSpeedIncreasedBy
     def _criticalHitChanceIncreasedBy(self):
         return self.criticalHitChanceIncreasedBy
+    def _criticalHitDamageIncreasedBy(self):
+        return self.criticalHitDamageIncreasedBy
     def __str__(self, prefix='', is_weapon=False):
         s = super().__str__(prefix)
         s += " " + self._color[self.quality](self.gear_type)
-        if self.damage:
+        if self.damage != (0, 0):
             if is_weapon:
                 s += ''.join(("\n",
                             prefix,
@@ -67,10 +78,20 @@ class Gear(Item):
                         prefix,
                         number_str("+{} ".format(self.vitality)),
                         property_str("Vitality")))
+        if self.life:
+            s += ''.join(("\n",
+                        prefix,
+                        number_str("+{:02.0f}% ".format(self.life * 100)),
+                        property_str("Life")))
         if self.physicalSkillsDealMoreDamage:
             s += ''.join(("\n",
                         prefix, property_str("Physical skills deal "),
                         number_str("{:03.1f}%".format(self.physicalSkillsDealMoreDamage * 100)),
+                        property_str(" more damage.")))
+        if self.poisonSkillsDealMoreDamage:
+            s += ''.join(("\n",
+                        prefix, property_str("Physical skills deal "),
+                        number_str("{:03.1f}%".format(self.poisonSkillsDealMoreDamage * 100)),
                         property_str(" more damage.")))
         if self.increaseGargantuanDamageBy:
             s += ''.join(("\n",
@@ -92,7 +113,12 @@ class Gear(Item):
             s += ''.join(("\n",
                         prefix,
                         number_str("+{} ".format(self.resistanceToAllElements)),
-                        property_str("Resistance to all elements.")))
+                        property_str("Resistance to all elements")))
+        if self.fireResistance:
+            s += ''.join(("\n",
+                        prefix,
+                        number_str("+{} ".format(self.fireResistance)),
+                        property_str("Fire Resistance")))
         if self.attackSpeedIncreasedBy:
             s += ''.join(("\n",
                         prefix, property_str("Attack Speed Increased by "),
@@ -124,11 +150,22 @@ class Gear(Item):
     def update_formula(self, formula):
         if isinstance(formula, AttackSpeedFormula):
             formula._otherIAS += self.attackSpeedIncreasedBy
+        elif isinstance(formula, DamageFormula):
+            if formula._element_type == "Physical":
+                formula._category_A += self.physicalSkillsDealMoreDamage
+            elif formula._element_type == "Poison":
+                formula._category_A += self.poisonSkillsDealMoreDamage
+        elif isinstance(formula, ResistanceFormula):
+            formula._all_resistance += self.resistanceToAllElements
+            formula._fire_resistance += self.fireResistance
+            formula._cold_resistance += self.coldResistance
+            formula._lightning_resistance += self.lightningResistance
+            formula._poison_resistance += self.poisonResistance
+            formula._physical_resistance += self.physicalResistance
 
 class Weapon(Gear):
     def __init__(self, gear_type, name, quality = 'Normal'):
         super().__init__(gear_type, name, quality)
-        self.damage = None
         self.attacksPerSecond = 0
     def __str__(self, prefix=''):
         return super().__str__(prefix, is_weapon=True)

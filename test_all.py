@@ -6,8 +6,8 @@ from Item import Item
 from Gear import Gear, Weapon
 from Slot import Slot
 from Hero import Hero
-from PredefinedGears import StrongarmBracers, TaskerAndTheo, Unity, RingOfRoyalGrandeur
-from Skills import BigBadVoodoo
+from PredefinedGears import StrongarmBracers, TaskerAndTheo, Unity, RingOfRoyalGrandeur, MaskOfJeram
+from Skills import BigBadVoodoo, FetishArmy, CorpseSpiders, Piranhas, PierceTheVeil
 
 class TestLegendaryGem:
     def setUp(self):
@@ -63,7 +63,7 @@ class TestHero:
         print(hero)
         #print(hero._slot_Head)
 
-
+"""
 class TestWitchDoctor:
     def setUp(self):
         print()
@@ -180,6 +180,7 @@ class TestWitchDoctor:
         # End of Gears
         # Skills
         self.wd.skills.add(BigBadVoodoo('Slam Dance'))
+        self.wd.skills.add(FetishArmy("Legion of Daggers"))
         # End of Skills
         print(self.wd)
         print("Critical Hit Chance Increased by {:03.1f}%".format(self.wd._criticalHitChanceIncreasedBy() * 100))
@@ -214,3 +215,136 @@ class TestWitchDoctor:
         print("Increased Attack Speed on Gear and Paragon: {:03.1f}%".format(100*self.wd._increasedAttackSpeedOnGearAndParagon()))
         print("Attack Speed is {:06.3f} per Second".format(self.wd.attack_speed()))
         eq_(int(1.905 * 1000), int(self.wd.attack_speed() * 1000))
+        print("Critical Hit Damage Increased by {:03.1f}%".format(self.wd._criticalHitDamageIncreasedBy() * 100))
+        # basic damage from gears
+        print("Damage from gears: {}".format(self.wd._baseDamage()))
+        print("Damage with Fetish Army {}".format(self.wd._skillDamage("Fetish Army")))
+"""
+
+class TestPhoneutria:
+    def setUp(self):
+        pass
+    def tearDown(self):
+        pass
+    def test_damage(self):
+        print()
+        Phoneutria = WitchDoctor('Phoneutria')
+        # Gears
+        ##  Head
+        maskOfJeram = MaskOfJeram(90 / 100)
+        maskOfJeram.armor = 696
+        maskOfJeram.intelligence = 680
+        maskOfJeram.criticalHitChanceIncreasedBy = 5.5 / 100
+        maskOfJeram.fireResistance = 146
+        Phoneutria.head.equip(maskOfJeram)
+        ## Shoulders
+        aughildsPower = Gear('Shoulders', "Aughild's Power", "Set")
+        aughildsPower.armor = 660
+        aughildsPower.intelligence = 604
+        aughildsPower.vitality = 647
+        aughildsPower.life = 15 / 100
+        Phoneutria.shoulders.equip(aughildsPower)
+        ## Neck
+        theFlavorOfTime = Gear('Amulet', "The Flavor of Time", 'Legendary')
+        theFlavorOfTime.poisonSkillsDealMoreDamage += 20 / 100
+        theFlavorOfTime.intelligence = 738
+        theFlavorOfTime.criticalHitDamageIncreasedBy = 81 / 100
+        theFlavorOfTime.addSocket()
+        theFlavorOfTime.sockets[0].insert(PainEnhancer(31))
+        Phoneutria.amulet.equip(theFlavorOfTime)
+        ## Torso
+        zunimassasMarrow = Gear('Chest Armor', "Zunnimassa's Marrow", 'Set')
+        zunimassasMarrow.armor = 688
+        zunimassasMarrow.intelligence = 432
+        zunimassasMarrow.vitality = 463
+        zunimassasMarrow.increaseHauntDamageBy = 15 / 100
+        zunimassasMarrow.lightningResistance = 144
+        zunimassasMarrow.addSocket()
+        zunimassasMarrow.addSocket()
+        zunimassasMarrow.addSocket()
+        zunimassasMarrow.sockets[0].insert(FlawlessRoyalTopaz())
+        zunimassasMarrow.sockets[1].insert(FlawlessRoyalTopaz())
+        zunimassasMarrow.sockets[2].insert(FlawlessRoyalTopaz())
+        Phoneutria.torso.equip(zunimassasMarrow)
+        ## Hands
+        taskerAndTheo = TaskerAndTheo(50/100)
+        taskerAndTheo.armor = 549
+        taskerAndTheo.intelligence = 708
+        taskerAndTheo.vitality = 707
+        taskerAndTheo.criticalHitChanceIncreasedBy = 10 / 100
+        Phoneutria.hands.equip(taskerAndTheo)
+        ## Wrists
+        aughildsSearch = Gear("Bracers", "Aughild's Search", "Set")
+        aughildsSearch.poisonSkillsDealMoreDamage = 18 / 100
+        aughildsSearch.intelligence = 595
+        aughildsSearch.armor = 771
+        aughildsSearch.criticalHitChanceIncreasedBy = 6 / 100
+        aughildsSearch.fireResistance = 199
+        Phoneutria.wrists.equip(aughildsSearch)
+        ## Waist
+        blackthornesNotchedBelt = Gear('Belt', "Blackthorne's Notched Belt", 'Set')
+        blackthornesNotchedBelt.armor = 490
+        blackthornesNotchedBelt.intelligence = 472
+        blackthornesNotchedBelt.vitality = 434
+        blackthornesNotchedBelt.resistanceToAllElements = 94
+        Phoneutria.waist.equip(blackthornesNotchedBelt)
+        ## Ring One
+        unity = Unity()
+        unity.intelligence = 471
+        unity.criticalHitChanceIncreasedBy = 4.5 / 100
+        unity.increaseDamageAgainstElites = 13 /100
+        unity.addSocket()
+        unity.sockets[0].insert(Enforcer(34))
+        Phoneutria.ring_one.equip(unity)
+        ## Ring Two
+        ringOfRoyalGrandeur = RingOfRoyalGrandeur()
+        ringOfRoyalGrandeur.intelligence = 461
+        ringOfRoyalGrandeur.attackSpeedIncreasedBy = 7 / 100
+        ringOfRoyalGrandeur.criticalHitDamageIncreasedBy = 45 / 100
+        ringOfRoyalGrandeur.addSocket()
+        ringOfRoyalGrandeur.sockets[0].insert(BaneOfTheTrapped(34))
+        Phoneutria.ring_two.equip(ringOfRoyalGrandeur)
+        ## Legs
+        blackthornesJoustingMail = Gear('Pants', "Blackthorne's Jousting Mail", 'Set')
+        blackthornesJoustingMail.armor = 1097
+        blackthornesJoustingMail.intelligence = 598
+        blackthornesJoustingMail.vitality = 622
+        blackthornesJoustingMail.addSocket()
+        blackthornesJoustingMail.addSocket()
+        blackthornesJoustingMail.sockets[0].insert(FlawlessRoyalTopaz())
+        blackthornesJoustingMail.sockets[1].insert(FlawlessRoyalTopaz())
+        Phoneutria.legs.equip(blackthornesJoustingMail)
+        ## Feet
+        zunimassasTrail = Gear('Boots', "Zunimassa's Trail", 'Set')
+        zunimassasTrail.armor = 905
+        zunimassasTrail.intelligence = 495
+        zunimassasTrail.resistanceToAllElements = 97
+        Phoneutria.feet.equip(zunimassasTrail)
+        ## MainHand
+        theSpiderQueensGrasp = Weapon('Ceremonial Knife', "the Spider Queen's Grasp", "Legendary")
+        theSpiderQueensGrasp.damage = (1608, 2409)
+        theSpiderQueensGrasp.attacksPerSecond = 1.4
+        theSpiderQueensGrasp.intelligence = 936
+        Phoneutria.mainHand.equip(theSpiderQueensGrasp)
+        ## OffHand
+        zunimassasStringOfSkulls = Gear('Mojo', "Zunimassa's String of Skulls", 'Set')
+        zunimassasStringOfSkulls.damage = (366, 446)
+        zunimassasStringOfSkulls.intelligence = 728
+        zunimassasStringOfSkulls.vitality = 662
+        zunimassasStringOfSkulls.criticalHitChanceIncreasedBy = 9.5 / 100
+        zunimassasStringOfSkulls.addSocket()
+        zunimassasStringOfSkulls.sockets[0].insert(FlawlessRoyalTopaz())
+        Phoneutria.offHand.equip(zunimassasStringOfSkulls)
+        # End of Gears
+        # Skills
+        ## Active Skills
+        Phoneutria.skills.add(CorpseSpiders('Leaping Spiders'))
+        Phoneutria.skills.add(Piranhas("Wave of Mutilation"))
+        Phoneutria.skills.add(BigBadVoodoo('Slam Dance'))
+        Phoneutria.skills.add(FetishArmy("Head Hunters"))
+        ## Passive Skills
+        Phoneutria.skills.add(PierceTheVeil())
+        # End of Skills
+        print(Phoneutria)
+        print("Critical Hit Chance Increased by {:03.1f}%".format(Phoneutria._criticalHitChanceIncreasedBy() * 100))
+        print("Damage from Fetish Army: {}".format(Phoneutria._skillDamage("Fetish Army")))

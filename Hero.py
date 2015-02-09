@@ -12,8 +12,9 @@ from Legs import Legs
 from Feet import Feet
 from Hands import Hands
 from Paragon import Paragon
-from Skills import BigBadVoodoo, Skills
-from Formulas import AttackSpeedFormula
+from Skills import Skills
+from Formulas import AttackSpeedFormula, DamageFormula
+from PredefinedGears import SetBonus
 
 class Hero(Unit):
     CLASSES = ('Witch Doctor', 'Crusader', 'Babarian', 'Demon Hunter', 'Wizard')
@@ -38,8 +39,8 @@ class Hero(Unit):
         self.ring_two = Ring()
         self.mainHand = MainHand()
         self.offHand = OffHand()
-        self.slots = (self.head, self.shoulders, self.torso, self.amulet, self.wrists, self.hands,
-                        self.waist, self.legs, self.feet, self.ring_one, self.ring_two, self.mainHand,
+        self.slots = (self.head, self.shoulders, self.amulet, self.torso, self.hands, self.wrists,
+                        self.waist, self.ring_one, self.ring_two, self.legs, self.feet, self.mainHand,
                         self.offHand)
         self.skills = Skills()
     def _intelligence(self):
@@ -49,6 +50,8 @@ class Hero(Unit):
             if gear:
                 intelligence += gear._intelligence()
         intelligence += self.paragon._intelligence()
+        # check set bonuses
+        intelligence += SetBonus(self)._intelligence()
         return intelligence
     def __str__(self, prefix=''):
         s = super().__str__()
@@ -67,6 +70,13 @@ Intel:  {}
             if gear:
                 criticalHitChanceIncreasedBy += gear._criticalHitChanceIncreasedBy()
         return criticalHitChanceIncreasedBy
+    def _criticalHitDamageIncreasedBy(self):
+        criticalHitDamageIncreasedBy = 0
+        for slot in self.slots:
+            gear = slot._gear()
+            if gear:
+                criticalHitDamageIncreasedBy += gear._criticalHitDamageIncreasedBy()
+        return criticalHitDamageIncreasedBy
     def _baseWeaponAps_E7(self):
         aps = 0
         weapon = self.mainHand._gear()
@@ -94,3 +104,30 @@ Intel:  {}
         for skill in self.skills:
             skill.update_formula(formula)
         return formula.calc()
+    def _baseDamage(self):
+        '''
+        Weapon damage plus any +damage from gears
+        '''
+        damage = [0, 0]
+        for slot in self.slots:
+            gear = slot._gear()
+            if gear:
+                damage[0] += gear.damage[0]
+                damage[1] += gear.damage[1]
+        return damage
+    def _skillDamage(self, skill_name):
+        '''
+        Get damage info for one equipped skill.
+        '''
+        skill = None
+        for sk in self.skills:
+            if sk.name == skill_name:
+                skill = sk
+        assert(skill != None, "Skill {} is not equipped for this hero.".format(skill_name))
+        damageFormula = DamageFormula(self, skill)
+        for slot in self.slots:
+            gear = slot._gear()
+            if gear:
+                gear.update_formula(damageFormula)
+        return damageFormula.calc()
+
