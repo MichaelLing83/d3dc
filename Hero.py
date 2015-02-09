@@ -12,7 +12,7 @@ from Legs import Legs
 from Feet import Feet
 from Hands import Hands
 from Paragon import Paragon
-from Skills import Skills
+from Skills import ASkill, Skills
 from Formulas import AttackSpeedFormula, DamageFormula
 from PredefinedGears import SetBonus
 
@@ -25,7 +25,8 @@ class Hero(Unit):
         self.lvl = 70
         self.name = name
         self.paragon = Paragon(self)
-        self.intelligence = 10 + 3 * self.lvl
+        self.intelligence = 7 + 3 * self.lvl
+        self.vitality = 7 + 2 * self.lvl
         self.head = Head()
         self.shoulders = Shoulders()
         self.torso = Torso()
@@ -49,6 +50,7 @@ class Hero(Unit):
             gear = slot._gear()
             if gear:
                 intelligence += gear._intelligence()
+        # check Paragon points
         intelligence += self.paragon._intelligence()
         # check set bonuses
         intelligence += SetBonus(self)._intelligence()
@@ -130,4 +132,9 @@ Intel:  {}
             if gear:
                 gear.update_formula(damageFormula)
         return damageFormula.calc()
+    def damageIncreasedBySkills(self):
+        damageFormula = DamageFormula(self, ASkill("None"))
+        for skill in self.skills:
+            skill.update_formula(damageFormula)
+        return damageFormula._category_D - 1
 

@@ -9,6 +9,9 @@ from Hero import Hero
 from PredefinedGears import StrongarmBracers, TaskerAndTheo, Unity, RingOfRoyalGrandeur, MaskOfJeram
 from Skills import BigBadVoodoo, FetishArmy, CorpseSpiders, Piranhas, PierceTheVeil
 
+def float_eq_(a, b):
+    eq_(int(a-b), 0, "{a} != {b}".format(a=a, b=b))
+
 class TestLegendaryGem:
     def setUp(self):
         seed()
@@ -345,6 +348,24 @@ class TestPhoneutria:
         ## Passive Skills
         Phoneutria.skills.add(PierceTheVeil())
         # End of Skills
+
+        # Paragon
+        Phoneutria.paragon.mainStatPoint = 42
+        # End of Paragon
         print(Phoneutria)
+
+        # Checks from game info panel
+        eq_(Phoneutria._intelligence(), 10275)
+        # End of checks from game info panel
+
+        # Checks from game DETAILS panel
+        print()
+        print("DETAILS")
+        ## Offense
+        print("OFFENSE")
+        float_eq_(Phoneutria.damageIncreasedByInt(), 10275 / 100)
+        float_eq_(Phoneutria.damageIncreasedBySkills(), 20 / 100)
+        # End of checks from game DETAILS panel
+
         print("Critical Hit Chance Increased by {:03.1f}%".format(Phoneutria._criticalHitChanceIncreasedBy() * 100))
         print("Damage from Fetish Army: {}".format(Phoneutria._skillDamage("Fetish Army")))

@@ -19,3 +19,5 @@ class WitchDoctor(Hero):
         super().__init__('Witch Doctor', name)
     def __str__(self, prefix=''):
         return super().__str__(prefix)
+    def damageIncreasedByInt(self):
+        return self._intelligence() / 100

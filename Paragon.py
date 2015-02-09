@@ -25,7 +25,7 @@ class Paragon:
         self.goldFindPoint = 0
     def _intelligence(self):
         intelligence = 0
-        if self.hero.hero_class in ("WITCH DOCTOR", "WIZARD"):
+        if self.hero.hero_class in ("Witch Doctor", "Wizard"):
             intelligence = self.mainStatPoint * 5
         return intelligence
     def _strength(self):
