@@ -137,4 +137,13 @@ Intel:  {}
         for skill in self.skills:
             skill.update_formula(damageFormula)
         return damageFormula._category_D - 1
+    def bonusDamageToElites(self):
+        bonusDamageToElites = 0
+        for slot in self.slots:
+            gear = slot._gear()
+            if gear:
+                bonusDamageToElites += gear._increaseDamageAgainstElites()
+        # check set bonuses
+        bonusDamageToElites += SetBonus(self)._increaseDamageAgainstElitesBy()
+        return bonusDamageToElites
 

@@ -47,6 +47,8 @@ class Gear(Item):
         return self.criticalHitChanceIncreasedBy
     def _criticalHitDamageIncreasedBy(self):
         return self.criticalHitDamageIncreasedBy
+    def _increaseDamageAgainstElites(self):
+        return self.increaseDamageAgainstElites
     def __str__(self, prefix='', is_weapon=False):
         s = super().__str__(prefix)
         s += " " + self._color[self.quality](self.gear_type)

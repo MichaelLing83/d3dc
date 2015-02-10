@@ -4,7 +4,7 @@ from Formulas import AttackSpeedFormula, DamageFormula
 class ASkill(Unit):
     def __init__(self, name):
         super().__init__(name)
-        self._element_type = "Physical"
+        self._element_type = None
     def _attackSpeedIncreasedBy(self):
         return 0
     def element_type(self):

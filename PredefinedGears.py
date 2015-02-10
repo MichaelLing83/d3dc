@@ -88,5 +88,13 @@ class SetBonus(Gear):
         if set_count >= 3:
             resistanceToAllElements = 75
         return resistanceToAllElements
-
+    def _increaseDamageAgainstElitesBy(self):
+        increaseDamageAgainstElitesBy = 0
+        set_count = self._set_count("Aughild")
+        if set_count >= 3:
+            increaseDamageAgainstElitesBy += 15 / 100
+        set_count = self._set_count("Blackthorne")
+        if set_count >= 3:
+            increaseDamageAgainstElitesBy += 10 / 100
+        return increaseDamageAgainstElitesBy
 

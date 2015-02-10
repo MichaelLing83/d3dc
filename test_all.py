@@ -10,8 +10,8 @@ from PredefinedGears import StrongarmBracers, TaskerAndTheo, Unity, RingOfRoyalG
 from Skills import BigBadVoodoo, FetishArmy, CorpseSpiders, Piranhas, PierceTheVeil
 
 def float_eq_(a, b):
-    eq_(int(a-b), 0, "{a} != {b}".format(a=a, b=b))
-
+    assert abs(a-b) < 0.001, "{a} != {b}".format(a=a, b=b)
+"""
 class TestLegendaryGem:
     def setUp(self):
         seed()
@@ -41,7 +41,9 @@ class TestGear:
         pass
     def test_create(self):
         gear = Gear('Helm', "LEORIC'S CROWN")
+"""
 
+"""
 class TestSlot:
     def setUp(self):
         self.gear = Gear('Helm', "LEORIC'S CROWN")
@@ -53,7 +55,9 @@ class TestSlot:
         slot = Slot('Head')
         slot.equip(self.gear)
         print(slot)
+"""
 
+"""
 class TestHero:
     def setUp(self):
         pass
@@ -65,6 +69,7 @@ class TestHero:
         hero.mainHand.equip(axe)
         print(hero)
         #print(hero._slot_Head)
+"""
 
 """
 class TestWitchDoctor:
@@ -364,7 +369,12 @@ class TestPhoneutria:
         ## Offense
         print("OFFENSE")
         float_eq_(Phoneutria.damageIncreasedByInt(), 10275 / 100)
-        float_eq_(Phoneutria.damageIncreasedBySkills(), 20 / 100)
+        print("Damage Increased by Intelligence\t{:,}%".format(Phoneutria.damageIncreasedByInt()*100))
+        float_eq_(Phoneutria.damageIncreasedBySkills(), (20+15) / 100)
+        # here we deviate from game details as we always count Piranha skill.
+        print("Damage Increased by Skills\t{:04.2f}%".format(Phoneutria.damageIncreasedBySkills()*100))
+        float_eq_(Phoneutria.bonusDamageToElites(), 38 / 100)
+        print("Bonus Damage to Elites\t{:04.2f}%".format(Phoneutria.bonusDamageToElites()*100))
         # End of checks from game DETAILS panel
 
         print("Critical Hit Chance Increased by {:03.1f}%".format(Phoneutria._criticalHitChanceIncreasedBy() * 100))
