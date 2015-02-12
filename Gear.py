@@ -9,46 +9,6 @@ class Gear(Item):
         assert(gear_type in Item.ITEM_TYPES)
         super().__init__(name, quality)
         self.gear_type = gear_type
-        self.sockets = list()
-        self.armor = 0
-        self.intelligence = 0
-        self.vitality = 0
-        self.attackSpeedIncreasedBy = 0
-        self.criticalHitChanceIncreasedBy = 0
-        self.criticalHitDamageIncreasedBy = 0
-        self.increaseGargantuanDamageBy = 0
-        self.increaseHauntDamageBy = 0
-        self.increaseDamageAgainstElites = 0
-        self.physicalSkillsDealMoreDamage = 0
-        self.poisonSkillsDealMoreDamage = 0
-        self.resistanceToAllElements = 0
-        self.fireResistance = 0
-        self.coldResistance = 0
-        self.lightningResistance = 0
-        self.poisonResistance = 0
-        self.physicalResistance = 0
-        self.lifePerHit = 0
-        self.life = 0   # increase life by x percentage
-        self.movementSpeed = 0
-        self.damage = (0, 0)
-        self.attacksPerSecond = 0
-    def _intelligence(self):
-        intelligence = self.intelligence
-        for socket in self.sockets:
-            gem = socket._get_gem()
-            if gem:
-                intelligence += gem._intelligence(self)
-        return intelligence
-    def _resistanceToAllElements(self):
-        return self.resistanceToAllElements
-    def _attackSpeedIncreasedBy(self):
-        return self.attackSpeedIncreasedBy
-    def _criticalHitChanceIncreasedBy(self):
-        return self.criticalHitChanceIncreasedBy
-    def _criticalHitDamageIncreasedBy(self):
-        return self.criticalHitDamageIncreasedBy
-    def _increaseDamageAgainstElites(self):
-        return self.increaseDamageAgainstElites
     def __str__(self, prefix='', is_weapon=False):
         s = super().__str__(prefix)
         s += " " + self._color[self.quality](self.gear_type)
@@ -147,8 +107,6 @@ class Gear(Item):
             for socket in self.sockets:
                 s += '\n' + socket.__str__(prefix + '  ')
         return s
-    def addSocket(self):
-        self.sockets.append(Socket(self))
     def update_formula(self, formula):
         if isinstance(formula, AttackSpeedFormula):
             formula._otherIAS += self.attackSpeedIncreasedBy

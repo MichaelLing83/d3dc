@@ -97,4 +97,7 @@ class SetBonus(Gear):
         if set_count >= 3:
             increaseDamageAgainstElitesBy += 10 / 100
         return increaseDamageAgainstElitesBy
+    def _criticalHitChanceIncreasedBy(self):
+        criticalHitChanceIncreasedBy = 0
+        return criticalHitChanceIncreasedBy
 

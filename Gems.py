@@ -7,8 +7,6 @@ class Gem(Item):
         super().__init__(name, quality)
     def __str__(self, prefix):
         return super().__str__(prefix)
-    def _intelligence(self, owner):
-        return 0
 
 class FlawlessRoyalTopaz(Gem):
     def __init__(self):
@@ -39,6 +37,36 @@ class FlawlessRoyalTopaz(Gem):
             if slot_type not in ('Head', 'Main Hand'):
                 intelligence = 280
         return intelligence
+
+class FlawlessRoyalEmerald(Gem):
+    def __init__(self):
+        super().__init__("Flawless Royal Emerald", 'Normal')
+        self.helm = "+41% Extra Gold from Monsters"
+        self.weapon = "Critical Hit Damage Increased by 130.0%"
+        self.other = "+280 Dexterity"
+    def __str__(self, owner, prefix = ''):
+        s = prefix + self.name
+        if owner == None:
+            s += '\n' + '  ' + prefix + "Can be inserted into equipment with sockets."
+            s += '\n' + '  ' + prefix + "Helm: " + self.helm
+            s += '\n' + '  ' + prefix + "Weapon: " + self.weapon
+            s += '\n' + '  ' + prefix + "other: " + self.other
+        else:
+            slot_type = Item.to_slot_type(owner.gear_type)
+            if slot_type == 'Head':
+                s += ':  ' + self.helm
+            elif slot_type == 'Main Hand':
+                s += ':  ' + self.weapon
+            else:
+                s += ':  ' + self.other
+        return s
+    def _criticalHitDamageIncreasedBy(self, owner):
+        criticalHitDamageIncreasedBy = 0
+        if owner != None:
+            slot_type = Item.to_slot_type(owner.gear_type)
+            if slot_type not in ('Main Hand',):
+                criticalHitDamageIncreasedBy = 130 / 100
+        return criticalHitDamageIncreasedBy
 
 
 class LegendaryGem(Gem):
@@ -135,10 +163,3 @@ class GemOfEfficaciousToxin(LegendaryGem):
         result += prefix + tmp_str("  * Poisoned enemies also take 10% increased damage from all sources (")
         result += tmp_lvl_str("Requires Rank 25") + tmp_str(")")
         return result
-
-if __name__ == '__main__':
-    from colorama import Fore, Back, Style
-    import colorama
-    colorama.init()
-    toxin = GemOfEfficaciousToxin(25)
-    print(toxin)

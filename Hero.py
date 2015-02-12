@@ -71,6 +71,10 @@ Intel:  {}
             gear = slot._gear()
             if gear:
                 criticalHitChanceIncreasedBy += gear._criticalHitChanceIncreasedBy()
+        # check Paragon points
+        criticalHitChanceIncreasedBy += self.paragon._criticalHitChance()
+        # check Set bonus
+        criticalHitChanceIncreasedBy += SetBonus._attackSpeedIncreasedBy()
         return criticalHitChanceIncreasedBy
     def _criticalHitDamageIncreasedBy(self):
         criticalHitDamageIncreasedBy = 0
@@ -78,6 +82,7 @@ Intel:  {}
             gear = slot._gear()
             if gear:
                 criticalHitDamageIncreasedBy += gear._criticalHitDamageIncreasedBy()
+        criticalHitDamageIncreasedBy += self.paragon._criticalHitDamage()
         return criticalHitDamageIncreasedBy
     def _baseWeaponAps_E7(self):
         aps = 0
@@ -106,6 +111,21 @@ Intel:  {}
         for skill in self.skills:
             skill.update_formula(formula)
         return formula.calc()
+    def attackPerSecond(self):
+        return self.attack_speed()
+    def attackSpeedIncrease(self):
+        formula = AttackSpeedFormula()
+        # update from all gears
+        for slot in self.slots:
+            gear = slot._gear()
+            if gear:
+                gear.update_formula(formula)
+        # update from paragon points
+        self.paragon.update_formula(formula)
+        # update from skills
+        for skill in self.skills:
+            skill.update_formula(formula)
+        return formula._otherIAS + formula._weaponIAS
     def _baseDamage(self):
         '''
         Weapon damage plus any +damage from gears

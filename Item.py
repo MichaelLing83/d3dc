@@ -1,5 +1,6 @@
 from Unit import Unit
 from ColorScheme import _normal, _unusual, _rare, _legendary, _set
+from Socket import Socket
 
 class Item(Unit):
     ITEM_TYPES = (
@@ -62,9 +63,56 @@ class Item(Unit):
                         'Set': _set }
         assert(quality in self._QUALITY)
         self.quality = quality
+        self.sockets = list()
+        self.armor = 0
+        self.intelligence = 0
+        self.vitality = 0
+        self.attackSpeedIncreasedBy = 0
+        self.criticalHitChanceIncreasedBy = 0
+        self.criticalHitDamageIncreasedBy = 0
+        self.increaseGargantuanDamageBy = 0
+        self.increaseHauntDamageBy = 0
+        self.increaseDamageAgainstElites = 0
+        self.physicalSkillsDealMoreDamage = 0
+        self.poisonSkillsDealMoreDamage = 0
+        self.resistanceToAllElements = 0
+        self.fireResistance = 0
+        self.coldResistance = 0
+        self.lightningResistance = 0
+        self.poisonResistance = 0
+        self.physicalResistance = 0
+        self.lifePerHit = 0
+        self.life = 0   # increase life by x percentage
+        self.movementSpeed = 0
+        self.damage = (0, 0)
+        self.attacksPerSecond = 0
     def __str__(self, prefix=''):
         s = prefix + self._color[self.quality]("{}".format(self.name)) + '\n'
         s += prefix + self._color[self.quality](self.quality)
         return s
+    def addSocket(self):
+        self.sockets.append(Socket(self))
     def update_formula(self, formular):
         pass
+    def _resistanceToAllElements(self, owner=None):
+        return self.resistanceToAllElements
+    def _attackSpeedIncreasedBy(self, owner=None):
+        return self.attackSpeedIncreasedBy
+    def _criticalHitChanceIncreasedBy(self, owner=None):
+        return self.criticalHitChanceIncreasedBy
+    def _criticalHitDamageIncreasedBy(self, owner=None):
+        criticalHitDamageIncreasedBy = self.criticalHitDamageIncreasedBy
+        for socket in self.sockets:
+            gem = socket._get_gem()
+            if gem:
+                criticalHitDamageIncreasedBy += gem._criticalHitDamageIncreasedBy(self)
+        return criticalHitDamageIncreasedBy
+    def _increaseDamageAgainstElites(self, owner=None):
+        return self.increaseDamageAgainstElites
+    def _intelligence(self, owner=None):
+        intelligence = self.intelligence
+        for socket in self.sockets:
+            gem = socket._get_gem()
+            if gem:
+                intelligence += gem._intelligence(self)
+        return intelligence

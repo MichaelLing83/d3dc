@@ -1,5 +1,5 @@
 from WitchDoctor import WitchDoctor
-from Gems import GemOfEfficaciousToxin, PainEnhancer, FlawlessRoyalTopaz, Enforcer, BaneOfTheTrapped
+from Gems import FlawlessRoyalEmerald, PainEnhancer, FlawlessRoyalTopaz, Enforcer, BaneOfTheTrapped
 from nose.tools import ok_, eq_
 from random import seed, randint
 from Item import Item
@@ -333,6 +333,8 @@ class TestPhoneutria:
         theSpiderQueensGrasp.damage = (1608, 2409)
         theSpiderQueensGrasp.attacksPerSecond = 1.4
         theSpiderQueensGrasp.intelligence = 936
+        theSpiderQueensGrasp.addSocket()
+        theSpiderQueensGrasp.sockets[0].insert(FlawlessRoyalEmerald())
         Phoneutria.mainHand.equip(theSpiderQueensGrasp)
         ## OffHand
         zunimassasStringOfSkulls = Gear('Mojo', "Zunimassa's String of Skulls", 'Set')
@@ -356,6 +358,8 @@ class TestPhoneutria:
 
         # Paragon
         Phoneutria.paragon.mainStatPoint = 42
+        Phoneutria.paragon.attackSpeedPoint = 42
+        Phoneutria.paragon.criticalHitChancePoint = 50
         # End of Paragon
         print(Phoneutria)
 
@@ -375,7 +379,16 @@ class TestPhoneutria:
         print("Damage Increased by Skills\t{:04.2f}%".format(Phoneutria.damageIncreasedBySkills()*100))
         float_eq_(Phoneutria.bonusDamageToElites(), 38 / 100)
         print("Bonus Damage to Elites\t{:04.2f}%".format(Phoneutria.bonusDamageToElites()*100))
-        # End of checks from game DETAILS panel
+        #float_eq_(Phoneutria.attackPerSecond(), 1.66)
 
-        print("Critical Hit Chance Increased by {:03.1f}%".format(Phoneutria._criticalHitChanceIncreasedBy() * 100))
-        print("Damage from Fetish Army: {}".format(Phoneutria._skillDamage("Fetish Army")))
+        #float_eq_(Phoneutria.attackSpeedIncrease(), 18.40 / 100)
+        '''
+        we always count 20% increase provided by "Big Bad Voodoo", but there's 3% missing from our calculation...
+        '''
+
+        #float_eq_(Phoneutria._criticalHitChanceIncreasedBy(), 45.5 / 100)
+        # End of checks from game DETAILS panel
+        #float_eq_(Phoneutria._criticalHitDamageIncreasedBy(), 306 / 100)
+
+        #print("Critical Hit Chance Increased by {:03.1f}%".format(Phoneutria._criticalHitChanceIncreasedBy() * 100))
+        #print("Damage from Fetish Army: {}".format(Phoneutria._skillDamage("Fetish Army")))
