@@ -1,5 +1,6 @@
 from Gear import Gear
 from ColorScheme import _legendary, _set, improvable_str
+from Formulas import AttributeFormula
 
 StrongarmBracers = Gear('Bracers', 'Strongarm Bracers', 'Legendary')
 StrongarmBracers.armor = 409
@@ -56,7 +57,7 @@ class MaskOfJeram(Gear):
         s += _legendary("\n{}Pets deal {:03.1f}% more damage.".format(prefix, self._more_damage * 100))
         return s
 
-class SetBonus(Gear):
+class SetBonus:
     '''
     Should never be equipped, only used to calculate set bonus.
     '''
@@ -100,4 +101,9 @@ class SetBonus(Gear):
     def _criticalHitChanceIncreasedBy(self):
         criticalHitChanceIncreasedBy = 0
         return criticalHitChanceIncreasedBy
-
+    def update_formula(self, formula):
+        if isinstance(formula, AttributeFormula):
+            # Zunimassa Set
+            set_count = self._set_count("Zunimassa")
+            if set_count >= 2:
+                formula.intelligence += 250

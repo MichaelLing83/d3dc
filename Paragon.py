@@ -1,7 +1,9 @@
-from Formulas import AttackSpeedFormula
+from Item import Item
+from Formulas import AttackSpeedFormula, AttributeFormula
 
-class Paragon:
+class Paragon(Item):
     def __init__(self, hero):
+        super().__init__("Paragon")
         self.hero = hero
         # core tab
         self.mainStatPoint = 0
@@ -58,5 +60,9 @@ class Paragon:
     def _lifeOnHit(self):
         return 82.5 * self.lifeOnHitPoint
     def update_formula(self, formula):
+        super().update_formula(formula)
         if isinstance(formula, AttackSpeedFormula):
             formula._otherIAS += self._attackSpeed()
+        elif isinstance(formula, AttributeFormula):
+            if self.hero.hero_class in ("Witch Doctor", "Wizard"):
+                formula.intelligence += self.mainStatPoint * 5

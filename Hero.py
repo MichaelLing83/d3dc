@@ -46,14 +46,18 @@ class Hero(Item):
         self.skills = Skills()
     def _intelligence(self):
         intelligence = self.intelligence
+        print("hero.intelligence={}".format(intelligence))
         for slot in self.slots:
             gear = slot._gear()
             if gear:
                 intelligence += gear._intelligence()
+        print("Count gears: intelligence={}".format(intelligence))
         # check Paragon points
         intelligence += self.paragon._intelligence()
+        print("Count paragon: intelligence={}".format(intelligence))
         # check set bonuses
         intelligence += SetBonus(self)._intelligence()
+        print("Count set bonus: intelligence={}".format(intelligence))
         return intelligence
     def __str__(self, prefix=''):
         s = super().__str__()
@@ -171,3 +175,5 @@ Intel:  {}
         for slot in self.slots:
             if slot._gear():
                 slot._gear().update_formula(formula)
+        self.paragon.update_formula(formula)
+        SetBonus(self).update_formula(formula)

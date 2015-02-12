@@ -20,5 +20,9 @@ class Slot(Item):
         assert(gear.gear_type in Slot.SLOT_GEAR[self.slot_type])
         self.gear = gear
         self.gear.slot = self
+        for socket in self.gear.sockets:
+            socket.slot = self
+            if socket.gem:
+                socket.gem.slot = self
     def _gear(self):
         return self.gear

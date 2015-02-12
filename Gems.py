@@ -1,6 +1,7 @@
 from Item import Item
 from ColorScheme import *
 from termcolor import colored
+from Formulas import AttributeFormula
 
 class Gem(Item):
     def __init__(self, name, quality = 'Normal'):
@@ -37,6 +38,16 @@ class FlawlessRoyalTopaz(Gem):
             if slot_type not in ('Head', 'Main Hand'):
                 intelligence = 280
         return intelligence
+    def update_formula(self, formula):
+        super().update_formula(formula)
+        if isinstance(formula, AttributeFormula):
+            if self.slot:
+                if self.slot.slot_type == 'Head':
+                    formula.magicFind += 41 / 100
+                elif self.slot.slot_type == 'MainHand':
+                    formula.thorns += 4975
+                else:
+                    formula.intelligence += 280
 
 class FlawlessRoyalEmerald(Gem):
     def __init__(self):
