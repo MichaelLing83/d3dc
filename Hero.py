@@ -166,4 +166,8 @@ Intel:  {}
         # check set bonuses
         bonusDamageToElites += SetBonus(self)._increaseDamageAgainstElitesBy()
         return bonusDamageToElites
-
+    def update_formula(self, formula):
+        super().update_formula(formula)
+        for slot in self.slots:
+            if slot._gear():
+                slot._gear().update_formula(formula)

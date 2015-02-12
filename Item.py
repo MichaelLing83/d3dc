@@ -108,6 +108,7 @@ class Item(Unit):
             elif formula._element_type == "Poison":
                 formula._category_A += self.poisonSkillsDealMoreDamage
         elif isinstance(formula, AttributeFormula):
+            formula.intelligence += self.intelligence
             formula.physicalResistance += self.resistanceToAllElements + self.physicalResistance
             formula.coldResistance += self.resistanceToAllElements + self.coldResistance
             formula.fireResistance += self.resistanceToAllElements + self.fireResistance
@@ -132,7 +133,6 @@ class Item(Unit):
     def _intelligence(self, owner=None):
         intelligence = self.intelligence
         for socket in self.sockets:
-            gem = socket._get_gem()
-            if gem:
-                intelligence += gem._intelligence(self)
+            if socket.gem:
+                intelligence += socket.gem._intelligence(self)
         return intelligence

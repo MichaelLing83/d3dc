@@ -18,5 +18,3 @@ class Socket(Unit):
         gem = self.gem
         self.gem = None
         return gem
-    def _get_gem(self):
-        return self.gem

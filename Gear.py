@@ -104,6 +104,11 @@ class Gear(Item):
             for socket in self.sockets:
                 s += '\n' + socket.__str__(prefix + '  ')
         return s
+    def update_formula(self, formula):
+        super().update_formula(formula)
+        for socket in self.sockets:
+            if socket.gem:
+                socket.gem.update_formula(formula)
 
 class Weapon(Gear):
     def __init__(self, gear_type, name, quality = 'Normal'):
