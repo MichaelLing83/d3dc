@@ -19,5 +19,6 @@ class Slot(Item):
         assert(isinstance(gear, Gear))
         assert(gear.gear_type in Slot.SLOT_GEAR[self.slot_type])
         self.gear = gear
+        self.gear.slot = self
     def _gear(self):
         return self.gear

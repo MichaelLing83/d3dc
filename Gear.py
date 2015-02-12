@@ -1,8 +1,5 @@
 from Item import Item
-from Gems import Gem
-from Socket import Socket
 from ColorScheme import property_str, number_str
-from Formulas import AttackSpeedFormula, DamageFormula, ResistanceFormula
 
 class Gear(Item):
     def __init__(self, gear_type, name, quality = 'Normal'):
@@ -107,21 +104,6 @@ class Gear(Item):
             for socket in self.sockets:
                 s += '\n' + socket.__str__(prefix + '  ')
         return s
-    def update_formula(self, formula):
-        if isinstance(formula, AttackSpeedFormula):
-            formula._otherIAS += self.attackSpeedIncreasedBy
-        elif isinstance(formula, DamageFormula):
-            if formula._element_type == "Physical":
-                formula._category_A += self.physicalSkillsDealMoreDamage
-            elif formula._element_type == "Poison":
-                formula._category_A += self.poisonSkillsDealMoreDamage
-        elif isinstance(formula, ResistanceFormula):
-            formula._all_resistance += self.resistanceToAllElements
-            formula._fire_resistance += self.fireResistance
-            formula._cold_resistance += self.coldResistance
-            formula._lightning_resistance += self.lightningResistance
-            formula._poison_resistance += self.poisonResistance
-            formula._physical_resistance += self.physicalResistance
 
 class Weapon(Gear):
     def __init__(self, gear_type, name, quality = 'Normal'):
@@ -129,7 +111,3 @@ class Weapon(Gear):
         self.attacksPerSecond = 0
     def __str__(self, prefix=''):
         return super().__str__(prefix, is_weapon=True)
-    def update_formula(self, formula):
-        if isinstance(formula, AttackSpeedFormula):
-            formula._weaponAttackSpeed = self.attacksPerSecond
-            formula._weaponIAS = self.attackSpeedIncreasedBy

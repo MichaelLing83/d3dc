@@ -8,6 +8,7 @@ from Slot import Slot
 from Hero import Hero
 from PredefinedGears import StrongarmBracers, TaskerAndTheo, Unity, RingOfRoyalGrandeur, MaskOfJeram
 from Skills import BigBadVoodoo, FetishArmy, CorpseSpiders, Piranhas, PierceTheVeil
+from Formulas import AttributeFormula
 
 def float_eq_(a, b):
     assert abs(a-b) < 0.001, "{a} != {b}".format(a=a, b=b)
@@ -329,7 +330,7 @@ class TestPhoneutria:
         zunimassasTrail.resistanceToAllElements = 97
         Phoneutria.feet.equip(zunimassasTrail)
         ## MainHand
-        theSpiderQueensGrasp = Weapon('Ceremonial Knife', "the Spider Queen's Grasp", "Legendary")
+        theSpiderQueensGrasp = Gear('Ceremonial Knife', "the Spider Queen's Grasp", "Legendary")
         theSpiderQueensGrasp.damage = (1608, 2409)
         theSpiderQueensGrasp.attacksPerSecond = 1.4
         theSpiderQueensGrasp.intelligence = 936
@@ -392,3 +393,8 @@ class TestPhoneutria:
 
         #print("Critical Hit Chance Increased by {:03.1f}%".format(Phoneutria._criticalHitChanceIncreasedBy() * 100))
         #print("Damage from Fetish Army: {}".format(Phoneutria._skillDamage("Fetish Army")))
+
+        attributeFormula = AttributeFormula()
+        Phoneutria.update_formula(attributeFormula)
+        attributeFormula.calc()
+        print(attributeFormula)

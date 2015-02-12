@@ -1,6 +1,7 @@
 from Unit import Unit
 from ColorScheme import _normal, _unusual, _rare, _legendary, _set
 from Socket import Socket
+from Formulas import AttackSpeedFormula, DamageFormula, AttributeFormula
 
 class Item(Unit):
     ITEM_TYPES = (
@@ -62,6 +63,7 @@ class Item(Unit):
                         'Legendary': _legendary,
                         'Set': _set }
         assert(quality in self._QUALITY)
+        self.slot = None    # in which slot it is equipped
         self.quality = quality
         self.sockets = list()
         self.armor = 0
@@ -81,6 +83,7 @@ class Item(Unit):
         self.lightningResistance = 0
         self.poisonResistance = 0
         self.physicalResistance = 0
+        self.arcaneResistance = 0
         self.lifePerHit = 0
         self.life = 0   # increase life by x percentage
         self.movementSpeed = 0
@@ -92,8 +95,25 @@ class Item(Unit):
         return s
     def addSocket(self):
         self.sockets.append(Socket(self))
-    def update_formula(self, formular):
-        pass
+    def update_formula(self, formula):
+        if isinstance(formula, AttackSpeedFormula):
+            if self.slot and self.slot.slot_type == 'MainHand':
+                formula._weaponAttackSpeed = self.attacksPerSecond
+                formula._weaponIAS = self.attackSpeedIncreasedBy
+            else:
+                formula._otherIAS += self._attackSpeedIncreasedBy()
+        elif isinstance(formula, DamageFormula):
+            if formula._element_type == "Physical":
+                formula._category_A += self.physicalSkillsDealMoreDamage
+            elif formula._element_type == "Poison":
+                formula._category_A += self.poisonSkillsDealMoreDamage
+        elif isinstance(formula, AttributeFormula):
+            formula.physicalResistance += self.resistanceToAllElements + self.physicalResistance
+            formula.coldResistance += self.resistanceToAllElements + self.coldResistance
+            formula.fireResistance += self.resistanceToAllElements + self.fireResistance
+            formula.lightningResistance += self.resistanceToAllElements + self.lightningResistance
+            formula.poisonResistance += self.resistanceToAllElements + self.poisonResistance
+            formula.arcaneHolyResistance += self.resistanceToAllElements + self.arcaneResistance
     def _resistanceToAllElements(self, owner=None):
         return self.resistanceToAllElements
     def _attackSpeedIncreasedBy(self, owner=None):

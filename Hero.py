@@ -1,4 +1,4 @@
-from Unit import Unit
+from Item import Item
 from Head import Head
 from Shoulders import Shoulders
 from Amulet import Amulet
@@ -16,7 +16,7 @@ from Skills import ASkill, Skills
 from Formulas import AttackSpeedFormula, DamageFormula
 from PredefinedGears import SetBonus
 
-class Hero(Unit):
+class Hero(Item):
     CLASSES = ('Witch Doctor', 'Crusader', 'Babarian', 'Demon Hunter', 'Wizard')
     def __init__(self, hero_class, name):
         assert(hero_class in Hero.CLASSES)
