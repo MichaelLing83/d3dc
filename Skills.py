@@ -1,10 +1,11 @@
 from Unit import  Unit
-from Formulas import AttackSpeedFormula, DamageFormula
+from Formulas import AttackSpeedFormula, DamageFormula, AttributeFormula
 
 class ASkill(Unit):
-    def __init__(self, name):
+    def __init__(self, name, is_passive=False):
         super().__init__(name)
         self._element_type = None
+        self._is_passive = is_passive
     def _attackSpeedIncreasedBy(self):
         return 0
     def element_type(self):
@@ -107,10 +108,13 @@ class Piranhas(ASkill):
 
 class PierceTheVeil(ASkill):
     def __init__(self):
-        super().__init__("Pierce the Veil")
+        super().__init__("Pierce the Veil", True)
     def update_formula(self, formula):
+        super().update_formula(formula)
         if isinstance(formula, DamageFormula):
             formula._category_D += 20 / 100
+        elif isinstance(formula, AttributeFormula):
+            formula.damageIncreasedBySkills += 20 / 100
 
 class Skills(list):
     def __init__(self):

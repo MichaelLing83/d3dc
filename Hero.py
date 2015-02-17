@@ -177,3 +177,5 @@ Intel:  {}
                 slot._gear().update_formula(formula)
         self.paragon.update_formula(formula)
         SetBonus(self).update_formula(formula)
+        for skill in self.skills:
+            skill.update_formula(formula)

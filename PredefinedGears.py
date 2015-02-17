@@ -104,6 +104,11 @@ class SetBonus:
     def update_formula(self, formula):
         if isinstance(formula, AttributeFormula):
             # Zunimassa Set
-            set_count = self._set_count("Zunimassa")
-            if set_count >= 2:
+            if self._set_count("Zunimassa") >= 2:
                 formula.intelligence += 250
+            # Aughild set
+            if self._set_count("Aughild") >= 3:
+                formula.bonusDamageToElites += 15 / 100
+            # Blackthorne set
+            if self._set_count("Blackthorne") >= 3:
+                formula.bonusDamageToElites += 10 / 100

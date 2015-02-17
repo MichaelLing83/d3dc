@@ -240,11 +240,10 @@ class TestPhoneutria:
         Phoneutria = WitchDoctor('Phoneutria')
         # Gears
         ##  Head
-        maskOfJeram = MaskOfJeram(90 / 100)
-        maskOfJeram.armor = 696
-        maskOfJeram.intelligence = 680
-        maskOfJeram.criticalHitChanceIncreasedBy = 5.5 / 100
-        maskOfJeram.fireResistance = 146
+        maskOfJeram = MaskOfJeram(95 / 100)
+        maskOfJeram.armor = 665
+        maskOfJeram.intelligence = 738
+        maskOfJeram.criticalHitChanceIncreasedBy = 6 / 100
         Phoneutria.head.equip(maskOfJeram)
         ## Shoulders
         aughildsPower = Gear('Shoulders', "Aughild's Power", "Set")
@@ -254,13 +253,13 @@ class TestPhoneutria:
         aughildsPower.life = 15 / 100
         Phoneutria.shoulders.equip(aughildsPower)
         ## Neck
-        theFlavorOfTime = Gear('Amulet', "The Flavor of Time", 'Legendary')
-        theFlavorOfTime.poisonSkillsDealMoreDamage += 20 / 100
-        theFlavorOfTime.intelligence = 738
-        theFlavorOfTime.criticalHitDamageIncreasedBy = 81 / 100
-        theFlavorOfTime.addSocket()
-        theFlavorOfTime.sockets[0].insert(PainEnhancer(31))
-        Phoneutria.amulet.equip(theFlavorOfTime)
+        squirtsNecklace = Gear('Amulet', "Squirt's Necklace", 'Legendary')
+        squirtsNecklace.poisonSkillsDealMoreDamage = 20 / 100
+        squirtsNecklace.intelligence = 738
+        squirtsNecklace.criticalHitDamageIncreasedBy = 81 / 100
+        squirtsNecklace.addSocket()
+        squirtsNecklace.sockets[0].insert(PainEnhancer(32))
+        Phoneutria.amulet.equip(squirtsNecklace)
         ## Torso
         zunimassasMarrow = Gear('Chest Armor', "Zunnimassa's Marrow", 'Set')
         zunimassasMarrow.armor = 688
@@ -370,14 +369,6 @@ class TestPhoneutria:
 
         # Checks from game DETAILS panel
         print()
-        print("DETAILS")
-        ## Offense
-        print("OFFENSE")
-        float_eq_(Phoneutria.damageIncreasedByInt(), 10275 / 100)
-        print("Damage Increased by Intelligence\t{:,}%".format(Phoneutria.damageIncreasedByInt()*100))
-        float_eq_(Phoneutria.damageIncreasedBySkills(), (20+15) / 100)
-        # here we deviate from game details as we always count Piranha skill.
-        print("Damage Increased by Skills\t{:04.2f}%".format(Phoneutria.damageIncreasedBySkills()*100))
         float_eq_(Phoneutria.bonusDamageToElites(), 38 / 100)
         print("Bonus Damage to Elites\t{:04.2f}%".format(Phoneutria.bonusDamageToElites()*100))
         #float_eq_(Phoneutria.attackPerSecond(), 1.66)
@@ -398,3 +389,7 @@ class TestPhoneutria:
         Phoneutria.update_formula(attributeFormula)
         attributeFormula.calc()
         print(attributeFormula)
+        float_eq_(attributeFormula.intelligence, 10275)
+        float_eq_(attributeFormula.damageIncreasedByInt, 10275/100)
+        float_eq_(attributeFormula.damageIncreasedBySkills, 20/100)
+        float_eq_(attributeFormula.bonusDamageToElites, 38/100)

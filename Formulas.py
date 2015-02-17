@@ -81,17 +81,17 @@ class AttributeFormula(Formula):
         s += "{:>20s}\n".format("DETAILS")
         s += "OFFENSE\n"
         s += align("Damage Increased by Int", "{:,}%".format(int(self.damageIncreasedByInt*100)))
-        s += align("Damage Increased by Skills", "{:04.2f}%".format(self.damageIncreasedBySkills))
-        s += align("Bonus Damage to Elites", "{:04.2f}%".format(self.bonusDamageToElites))
+        s += align("Damage Increased by Skills", "{:04.2f}%".format(self.damageIncreasedBySkills*100))
+        s += align("Bonus Damage to Elites", "{:04.2f}%".format(self.bonusDamageToElites*100))
         s += align("Attacks per Second", "{:03.2f}".format(self.attacksPerSecond))
-        s += align("Attack Speed Increase", "{:04.2f}%".format(self.attackSpeedIncrease))
-        s += align("Critical Hit Chance", "{:04.2f}%".format(self.criticalHitChance))
-        s += align("Critical Hit Damage", "+{:05.2f}%".format(self.criticalHitDamage))
-        s += align("Area Damage", "{:04.2f}%".format(self.areaDamage))
-        s += align("Cooldown Reduction", "{:04.2f}%".format(self.cooldownReduction))
-        s += align("Poison Damage Increase", "{:04.2f}%".format(self.poisonDamageIncrease))
-        s += align("Haunt Damage Increase", "{:04.2f}%".format(self.hauntDamageIncrease))
-        s += align("Fetish Army Damage Increase", "{:04.2f}%".format(self.fetishArmyDamageIncrease))
+        s += align("Attack Speed Increase", "{:04.2f}%".format(self.attackSpeedIncrease*100))
+        s += align("Critical Hit Chance", "{:04.2f}%".format(self.criticalHitChance*100))
+        s += align("Critical Hit Damage", "+{:05.2f}%".format(self.criticalHitDamage*100))
+        s += align("Area Damage", "{:04.2f}%".format(self.areaDamage*100))
+        s += align("Cooldown Reduction", "{:04.2f}%".format(self.cooldownReduction*100))
+        s += align("Poison Damage Increase", "{:04.2f}%".format(self.poisonDamageIncrease*100))
+        s += align("Haunt Damage Increase", "{:04.2f}%".format(self.hauntDamageIncrease*100))
+        s += align("Fetish Army Damage Increase", "{:04.2f}%".format(self.fetishArmyDamageIncrease*100))
         return s
 
 class AttackSpeedFormula(Formula):

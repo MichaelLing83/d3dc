@@ -115,6 +115,7 @@ class Item(Unit):
             formula.lightningResistance += self.resistanceToAllElements + self.lightningResistance
             formula.poisonResistance += self.resistanceToAllElements + self.poisonResistance
             formula.arcaneHolyResistance += self.resistanceToAllElements + self.arcaneResistance
+            formula.bonusDamageToElites += self.increaseDamageAgainstElites
     def _resistanceToAllElements(self, owner=None):
         return self.resistanceToAllElements
     def _attackSpeedIncreasedBy(self, owner=None):
